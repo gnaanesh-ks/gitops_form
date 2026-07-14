@@ -1,24 +1,9 @@
-# Values for the community "kube-prometheus-stack" Helm chart
-# helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring -f prometheus-values.yaml
-
+# monitoring/values.yaml
 grafana:
-  enabled: true
-  adminPassword: "changeme"   # override at install time or via a Secret
+  adminPassword: admin123
   service:
-    type: LoadBalancer        # provisions an AWS ELB with a public DNS name
-
+    type: LoadBalancer
+    port: 80
 prometheus:
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorNamespaceSelector: {}   # watch ServiceMonitors in ALL namespaces
-    retention: 10d
-    resources:
-      requests:
-        cpu: 250m
-        memory: 512Mi
-      limits:
-        cpu: "1"
-        memory: 1Gi
-
-alertmanager:
-  enabled: true
