@@ -2,7 +2,7 @@ flask:
   image:
     repository: 929170595649.dkr.ecr.us-east-1.amazonaws.com/two-tier-flask-app
     tag: "latest"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 2
   service:
     type: ClusterIP
