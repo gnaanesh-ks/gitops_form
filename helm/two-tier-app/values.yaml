@@ -1,7 +1,7 @@
 flask:
   image:
-    repository: 929170595649.dkr.ecr.us-east-1.amazonaws.com/two-tier-flask-app:latest
-    tag: "1.0.0"
+    repository: 929170595649.dkr.ecr.us-east-1.amazonaws.com/two-tier-flask-app
+    tag: "latest"
     pullPolicy: IfNotPresent
   replicaCount: 2
   service:
