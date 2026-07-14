@@ -1,0 +1,48 @@
+flask:
+  image:
+    repository: <ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/two-tier-flask-app
+    tag: "1.0.0"
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 5000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  ingress:
+    enabled: false
+    className: alb
+    host: register.example.com
+
+postgres:
+  image: postgres:16-alpine
+  storage: 5Gi
+  storageClassName: gp3
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi
+  service:
+    port: 5432
+
+db:
+  name: appdb
+  user: appuser
+  # In real use, do NOT put the plaintext password here. Use ExternalSecrets,
+  # Sealed Secrets, or SOPS-encrypted values and reference them from Git.
+  password: "changeme-use-a-secrets-manager"
+
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: 15s
+    namespace: monitoring   # namespace where the Prometheus Operator is watching

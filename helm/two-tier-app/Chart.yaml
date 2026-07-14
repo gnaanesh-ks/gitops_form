@@ -1,0 +1,6 @@
+apiVersion: v2
+name: two-tier-app
+description: Two-tier app - Flask registration frontend + PostgreSQL StatefulSet backend
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

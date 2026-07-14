@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 420px; margin: 60px auto; }
+    input { display: block; width: 100%; padding: 8px; margin: 8px 0 16px; box-sizing: border-box; }
+    button { padding: 10px 20px; }
+    .flash { background: #eef; padding: 10px; border-radius: 4px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Register</h1>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for m in messages %}
+        <div class="flash">{{ m }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <form method="POST" action="{{ url_for('register') }}">
+    <label>Full Name</label>
+    <input type="text" name="full_name" required>
+    <label>Email</label>
+    <input type="email" name="email" required>
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>

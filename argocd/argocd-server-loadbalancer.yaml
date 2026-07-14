@@ -1,0 +1,30 @@
+# Argo CD's official install manifest creates argocd-server as a ClusterIP
+# Service. Apply this patch after install to expose the UI/API via an AWS
+# LoadBalancer instead of relying on kubectl port-forward.
+#
+# Usage:
+#   kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+#
+# or:
+#   kubectl apply -f argocd-server-loadbalancer.yaml
+#
+# Note: argocd-server serves both gRPC (CLI) and HTTPS (UI) on port 443
+# using TLS by default, so a plain L4 ELB in front of it works fine.
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-server
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: argocd-server
+  ports:
+    - name: https
+      port: 443
+      targetPort: 8080
+    - name: http
+      port: 80
+      targetPort: 8080
